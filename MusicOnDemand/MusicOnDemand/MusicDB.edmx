@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MusicDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="album">
+          <Key>
+            <PropertyRef Name="albumID" />
+          </Key>
+          <Property Name="albumID" Type="int" Nullable="false" />
+          <Property Name="izvođačID" Type="int" Nullable="false" />
+          <Property Name="žanrID" Type="int" Nullable="false" />
+          <Property Name="nazivAlbuma" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="godIzdanja" Type="smallint" />
+        </EntityType>
+        <EntityType Name="država">
+          <Key>
+            <PropertyRef Name="državaID" />
+          </Key>
+          <Property Name="državaID" Type="int" Nullable="false" />
+          <Property Name="nazivDržave" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="izvođač">
+          <Key>
+            <PropertyRef Name="izvođačID" />
+          </Key>
+          <Property Name="izvođačID" Type="int" Nullable="false" />
+          <Property Name="nazivIzvođač" Type="nvarchar(max)" />
+          <Property Name="državaID" Type="int" />
+        </EntityType>
+        <EntityType Name="pjesma">
+          <Key>
+            <PropertyRef Name="pjesmaID" />
+            <PropertyRef Name="albumID" />
+          </Key>
+          <Property Name="pjesmaID" Type="int" Nullable="false" />
+          <Property Name="albumID" Type="int" Nullable="false" />
+          <Property Name="žanrID" Type="int" Nullable="false" />
+          <Property Name="nazivPjesme" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="vrijemeTrajanja" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="žanr">
+          <Key>
+            <PropertyRef Name="žanrID" />
+          </Key>
+          <Property Name="žanrID" Type="int" Nullable="false" />
+          <Property Name="nazivŽanra" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="žanroviIzvođača">
+          <Key>
+            <PropertyRef Name="izvođačID" />
+            <PropertyRef Name="žanrID" />
+          </Key>
+          <Property Name="izvođačID" Type="int" Nullable="false" />
+          <Property Name="žanrID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_album_izvođač">
+          <End Role="izvođač" Type="Self.izvođač" Multiplicity="1" />
+          <End Role="album" Type="Self.album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="izvođač">
+              <PropertyRef Name="izvođačID" />
+            </Principal>
+            <Dependent Role="album">
+              <PropertyRef Name="izvođačID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_album_žanr">
+          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
+          <End Role="album" Type="Self.album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="žanr">
+              <PropertyRef Name="žanrID" />
+            </Principal>
+            <Dependent Role="album">
+              <PropertyRef Name="žanrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_album_žanr1">
+          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
+          <End Role="album" Type="Self.album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="žanr">
+              <PropertyRef Name="žanrID" />
+            </Principal>
+            <Dependent Role="album">
+              <PropertyRef Name="žanrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_izvođač_država">
+          <End Role="država" Type="Self.država" Multiplicity="0..1" />
+          <End Role="izvođač" Type="Self.izvođač" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="država">
+              <PropertyRef Name="državaID" />
+            </Principal>
+            <Dependent Role="izvođač">
+              <PropertyRef Name="državaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pjesma_album">
+          <End Role="album" Type="Self.album" Multiplicity="1" />
+          <End Role="pjesma" Type="Self.pjesma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="album">
+              <PropertyRef Name="albumID" />
+            </Principal>
+            <Dependent Role="pjesma">
+              <PropertyRef Name="albumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pjesma_žanr">
+          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
+          <End Role="pjesma" Type="Self.pjesma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="žanr">
+              <PropertyRef Name="žanrID" />
+            </Principal>
+            <Dependent Role="pjesma">
+              <PropertyRef Name="žanrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_žanroviIzvođača_izvođač">
+          <End Role="izvođač" Type="Self.izvođač" Multiplicity="1" />
+          <End Role="žanroviIzvođača" Type="Self.žanroviIzvođača" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="izvođač">
+              <PropertyRef Name="izvođačID" />
+            </Principal>
+            <Dependent Role="žanroviIzvođača">
+              <PropertyRef Name="izvođačID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_žanroviIzvođača_žanr">
+          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
+          <End Role="žanroviIzvođača" Type="Self.žanroviIzvođača" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="žanr">
+              <PropertyRef Name="žanrID" />
+            </Principal>
+            <Dependent Role="žanroviIzvođača">
+              <PropertyRef Name="žanrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicDBModelStoreContainer">
+          <EntitySet Name="album" EntityType="Self.album" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="država" EntityType="Self.država" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="izvođač" EntityType="Self.izvođač" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pjesma" EntityType="Self.pjesma" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="žanr" EntityType="Self.žanr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="žanroviIzvođača" EntityType="Self.žanroviIzvođača" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_album_izvođač" Association="Self.FK_album_izvođač">
+            <End Role="izvođač" EntitySet="izvođač" />
+            <End Role="album" EntitySet="album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_album_žanr" Association="Self.FK_album_žanr">
+            <End Role="žanr" EntitySet="žanr" />
+            <End Role="album" EntitySet="album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_album_žanr1" Association="Self.FK_album_žanr1">
+            <End Role="žanr" EntitySet="žanr" />
+            <End Role="album" EntitySet="album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_izvođač_država" Association="Self.FK_izvođač_država">
+            <End Role="država" EntitySet="država" />
+            <End Role="izvođač" EntitySet="izvođač" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pjesma_album" Association="Self.FK_pjesma_album">
+            <End Role="album" EntitySet="album" />
+            <End Role="pjesma" EntitySet="pjesma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pjesma_žanr" Association="Self.FK_pjesma_žanr">
+            <End Role="žanr" EntitySet="žanr" />
+            <End Role="pjesma" EntitySet="pjesma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_žanroviIzvođača_izvođač" Association="Self.FK_žanroviIzvođača_izvođač">
+            <End Role="izvođač" EntitySet="izvođač" />
+            <End Role="žanroviIzvođača" EntitySet="žanroviIzvođača" />
+          </AssociationSet>
+          <AssociationSet Name="FK_žanroviIzvođača_žanr" Association="Self.FK_žanroviIzvođača_žanr">
+            <End Role="žanr" EntitySet="žanr" />
+            <End Role="žanroviIzvođača" EntitySet="žanroviIzvođača" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MusicDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="album">
+          <Key>
+            <PropertyRef Name="albumID" />
+          </Key>
+          <Property Name="albumID" Type="Int32" Nullable="false" />
+          <Property Name="izvođačID" Type="Int32" Nullable="false" />
+          <Property Name="žanrID" Type="Int32" Nullable="false" />
+          <Property Name="nazivAlbuma" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="godIzdanja" Type="Int16" />
+          <NavigationProperty Name="izvođač" Relationship="Self.FK_album_izvođač" FromRole="album" ToRole="izvođač" />
+          <NavigationProperty Name="žanr" Relationship="Self.FK_album_žanr" FromRole="album" ToRole="žanr" />
+          <NavigationProperty Name="žanr1" Relationship="Self.FK_album_žanr1" FromRole="album" ToRole="žanr" />
+          <NavigationProperty Name="pjesma" Relationship="Self.FK_pjesma_album" FromRole="album" ToRole="pjesma" />
+        </EntityType>
+        <EntityType Name="država">
+          <Key>
+            <PropertyRef Name="državaID" />
+          </Key>
+          <Property Name="državaID" Type="Int32" Nullable="false" />
+          <Property Name="nazivDržave" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="izvođač" Relationship="Self.FK_izvođač_država" FromRole="država" ToRole="izvođač" />
+        </EntityType>
+        <EntityType Name="izvođač">
+          <Key>
+            <PropertyRef Name="izvođačID" />
+          </Key>
+          <Property Name="izvođačID" Type="Int32" Nullable="false" />
+          <Property Name="nazivIzvođač" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="državaID" Type="Int32" />
+          <NavigationProperty Name="album" Relationship="Self.FK_album_izvođač" FromRole="izvođač" ToRole="album" />
+          <NavigationProperty Name="država" Relationship="Self.FK_izvođač_država" FromRole="izvođač" ToRole="država" />
+          <NavigationProperty Name="žanr" Relationship="Self.žanroviIzvođača" FromRole="izvođač" ToRole="žanr" />
+        </EntityType>
+        <EntityType Name="pjesma">
+          <Key>
+            <PropertyRef Name="pjesmaID" />
+            <PropertyRef Name="albumID" />
+          </Key>
+          <Property Name="pjesmaID" Type="Int32" Nullable="false" />
+          <Property Name="albumID" Type="Int32" Nullable="false" />
+          <Property Name="žanrID" Type="Int32" Nullable="false" />
+          <Property Name="nazivPjesme" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="vrijemeTrajanja" Type="Time" Precision="7" />
+          <NavigationProperty Name="album" Relationship="Self.FK_pjesma_album" FromRole="pjesma" ToRole="album" />
+          <NavigationProperty Name="žanr" Relationship="Self.FK_pjesma_žanr" FromRole="pjesma" ToRole="žanr" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="žanr">
+          <Key>
+            <PropertyRef Name="žanrID" />
+          </Key>
+          <Property Name="žanrID" Type="Int32" Nullable="false" />
+          <Property Name="nazivŽanra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="album" Relationship="Self.FK_album_žanr" FromRole="žanr" ToRole="album" />
+          <NavigationProperty Name="album1" Relationship="Self.FK_album_žanr1" FromRole="žanr" ToRole="album" />
+          <NavigationProperty Name="pjesma" Relationship="Self.FK_pjesma_žanr" FromRole="žanr" ToRole="pjesma" />
+          <NavigationProperty Name="izvođač" Relationship="Self.žanroviIzvođača" FromRole="žanr" ToRole="izvođač" />
+        </EntityType>
+        <Association Name="FK_album_izvođač">
+          <End Role="izvođač" Type="Self.izvođač" Multiplicity="1" />
+          <End Role="album" Type="Self.album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="izvođač">
+              <PropertyRef Name="izvođačID" />
+            </Principal>
+            <Dependent Role="album">
+              <PropertyRef Name="izvođačID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_album_žanr">
+          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
+          <End Role="album" Type="Self.album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="žanr">
+              <PropertyRef Name="žanrID" />
+            </Principal>
+            <Dependent Role="album">
+              <PropertyRef Name="žanrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_album_žanr1">
+          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
+          <End Role="album" Type="Self.album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="žanr">
+              <PropertyRef Name="žanrID" />
+            </Principal>
+            <Dependent Role="album">
+              <PropertyRef Name="žanrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pjesma_album">
+          <End Role="album" Type="Self.album" Multiplicity="1" />
+          <End Role="pjesma" Type="Self.pjesma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="album">
+              <PropertyRef Name="albumID" />
+            </Principal>
+            <Dependent Role="pjesma">
+              <PropertyRef Name="albumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_izvođač_država">
+          <End Role="država" Type="Self.država" Multiplicity="0..1" />
+          <End Role="izvođač" Type="Self.izvođač" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="država">
+              <PropertyRef Name="državaID" />
+            </Principal>
+            <Dependent Role="izvođač">
+              <PropertyRef Name="državaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pjesma_žanr">
+          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
+          <End Role="pjesma" Type="Self.pjesma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="žanr">
+              <PropertyRef Name="žanrID" />
+            </Principal>
+            <Dependent Role="pjesma">
+              <PropertyRef Name="žanrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="žanroviIzvođača">
+          <End Role="izvođač" Type="Self.izvođač" Multiplicity="*" />
+          <End Role="žanr" Type="Self.žanr" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MusicDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="album" EntityType="Self.album" />
+          <EntitySet Name="država" EntityType="Self.država" />
+          <EntitySet Name="izvođač" EntityType="Self.izvođač" />
+          <EntitySet Name="pjesma" EntityType="Self.pjesma" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="žanr" EntityType="Self.žanr" />
+          <AssociationSet Name="FK_album_izvođač" Association="Self.FK_album_izvođač">
+            <End Role="izvođač" EntitySet="izvođač" />
+            <End Role="album" EntitySet="album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_album_žanr" Association="Self.FK_album_žanr">
+            <End Role="žanr" EntitySet="žanr" />
+            <End Role="album" EntitySet="album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_album_žanr1" Association="Self.FK_album_žanr1">
+            <End Role="žanr" EntitySet="žanr" />
+            <End Role="album" EntitySet="album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pjesma_album" Association="Self.FK_pjesma_album">
+            <End Role="album" EntitySet="album" />
+            <End Role="pjesma" EntitySet="pjesma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_izvođač_država" Association="Self.FK_izvođač_država">
+            <End Role="država" EntitySet="država" />
+            <End Role="izvođač" EntitySet="izvođač" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pjesma_žanr" Association="Self.FK_pjesma_žanr">
+            <End Role="žanr" EntitySet="žanr" />
+            <End Role="pjesma" EntitySet="pjesma" />
+          </AssociationSet>
+          <AssociationSet Name="žanroviIzvođača" Association="Self.žanroviIzvođača">
+            <End Role="izvođač" EntitySet="izvođač" />
+            <End Role="žanr" EntitySet="žanr" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MusicDBModelStoreContainer" CdmEntityContainer="MusicDBEntities">
+          <EntitySetMapping Name="album">
+            <EntityTypeMapping TypeName="MusicDBModel.album">
+              <MappingFragment StoreEntitySet="album">
+                <ScalarProperty Name="albumID" ColumnName="albumID" />
+                <ScalarProperty Name="izvođačID" ColumnName="izvođačID" />
+                <ScalarProperty Name="žanrID" ColumnName="žanrID" />
+                <ScalarProperty Name="nazivAlbuma" ColumnName="nazivAlbuma" />
+                <ScalarProperty Name="godIzdanja" ColumnName="godIzdanja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="država">
+            <EntityTypeMapping TypeName="MusicDBModel.država">
+              <MappingFragment StoreEntitySet="država">
+                <ScalarProperty Name="državaID" ColumnName="državaID" />
+                <ScalarProperty Name="nazivDržave" ColumnName="nazivDržave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="izvođač">
+            <EntityTypeMapping TypeName="MusicDBModel.izvođač">
+              <MappingFragment StoreEntitySet="izvođač">
+                <ScalarProperty Name="izvođačID" ColumnName="izvođačID" />
+                <ScalarProperty Name="nazivIzvođač" ColumnName="nazivIzvođač" />
+                <ScalarProperty Name="državaID" ColumnName="državaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pjesma">
+            <EntityTypeMapping TypeName="MusicDBModel.pjesma">
+              <MappingFragment StoreEntitySet="pjesma">
+                <ScalarProperty Name="pjesmaID" ColumnName="pjesmaID" />
+                <ScalarProperty Name="albumID" ColumnName="albumID" />
+                <ScalarProperty Name="žanrID" ColumnName="žanrID" />
+                <ScalarProperty Name="nazivPjesme" ColumnName="nazivPjesme" />
+                <ScalarProperty Name="vrijemeTrajanja" ColumnName="vrijemeTrajanja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MusicDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="žanr">
+            <EntityTypeMapping TypeName="MusicDBModel.žanr">
+              <MappingFragment StoreEntitySet="žanr">
+                <ScalarProperty Name="žanrID" ColumnName="žanrID" />
+                <ScalarProperty Name="nazivŽanra" ColumnName="nazivŽanra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="žanroviIzvođača" TypeName="MusicDBModel.žanroviIzvođača" StoreEntitySet="žanroviIzvođača">
+            <EndProperty Name="izvođač">
+              <ScalarProperty Name="izvođačID" ColumnName="izvođačID" />
+            </EndProperty>
+            <EndProperty Name="žanr">
+              <ScalarProperty Name="žanrID" ColumnName="žanrID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
