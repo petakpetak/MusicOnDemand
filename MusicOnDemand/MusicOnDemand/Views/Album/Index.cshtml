@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MusicOnDemand.Models.album>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nazivAlbuma)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.godIzdanja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.izvođač.nazivIzvođač)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.žanr.nazivŽanra)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nazivAlbuma)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.godIzdanja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.izvođač.nazivIzvođač)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.žanr.nazivŽanra)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.albumID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.albumID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.albumID })
+        </td>
+    </tr>
+}
+
+</table>

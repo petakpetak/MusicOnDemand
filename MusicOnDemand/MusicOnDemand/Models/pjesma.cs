@@ -7,16 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MusicOnDemand
+namespace MusicOnDemand.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class pjesma
     {
         public int pjesmaID { get; set; }
         public int albumID { get; set; }
         public int žanrID { get; set; }
+        [Display(Name = "Songs")]
+        public string nazivIzvođač { get; set; }
         public string nazivPjesme { get; set; }
         public Nullable<System.TimeSpan> vrijemeTrajanja { get; set; }
     

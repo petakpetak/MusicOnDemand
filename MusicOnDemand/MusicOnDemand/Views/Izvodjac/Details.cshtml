@@ -1,0 +1,46 @@
+﻿@model MusicOnDemand.Models.izvođač
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>izvođač</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nazivIzvođač)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nazivIzvođač)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.država.nazivDržave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.država.nazivDržave)
+        </dd>
+
+        <dt>
+           
+            @Html.DisplayNameFor(model => model.album)
+        </dt>
+
+        <dd>
+            @foreach( MusicOnDemand.Models.album item in Model.album){
+                <a href='@("/Album/Details/"+ item.albumID)'>@item.nazivAlbuma</a>
+            }
+          
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.izvođačID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

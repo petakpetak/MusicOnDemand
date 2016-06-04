@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MusicOnDemand
+namespace MusicOnDemand.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MusicDBEntities : DbContext
+    public partial class MusicDB_Entities : DbContext
     {
-        public MusicDBEntities()
-            : base("name=MusicDBEntities")
+        public MusicDB_Entities()
+            : base("name=MusicDB_Entities")
         {
         }
     

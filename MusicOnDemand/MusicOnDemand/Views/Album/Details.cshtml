@@ -1,0 +1,50 @@
+﻿@model MusicOnDemand.Models.album
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>album</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nazivAlbuma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nazivAlbuma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.godIzdanja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.godIzdanja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.izvođač.nazivIzvođač)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.izvođač.nazivIzvođač)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.žanr.nazivŽanra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.žanr.nazivŽanra)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.albumID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,87 @@
+﻿@model MusicOnDemand.Models.Result
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.izvodjaci)
+        </th>
+
+        @foreach (var item in Model.izvodjaci)
+        {
+          <tr>
+             
+                <td>
+                    <span style="padding: 0 40px">&nbsp; <a href="@("/Izvodjac/Details/"+item.izvođačID)"> @Html.DisplayFor(modelItemZ => item.nazivIzvođač)</a><span>
+
+
+                </td>
+            </tr>
+        }
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.albumi)
+        </th>
+        @foreach (var item in Model.albumi)
+        {
+            <tr>
+
+                <td>
+                    <span style="padding: 0 40px">&nbsp; <a href="@("/Album/Details/"+item.albumID)">@Html.DisplayFor(modelItemA => item.nazivAlbuma)</a></span>
+                </td>
+            </tr>
+        }
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.pjesme)
+        </th>
+        @foreach (var item in Model.pjesme)
+        {
+            <tr>
+
+                <td>
+                    <span style="padding: 0 40px">&nbsp;<a href="@("/Pjesma/Details/"+item.pjesmaID)">@Html.DisplayFor(modelItemP => item.nazivPjesme)</a></span>
+                </td>
+            </tr>
+        }
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.drzave)
+        </th>
+
+        @foreach (var item in Model.drzave)
+        {
+            <tr>
+
+                <td>
+                    <span style="padding: 0 40px">&nbsp;<a href="@("/Drzava/Details/"+item.državaID)">@Html.DisplayFor(modelItemD => item.nazivDržave)</a></span>
+                </td>
+            </tr>
+        }
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.zanrovi)
+        </th>
+        @foreach (var item in Model.zanrovi)
+        {
+            <tr>
+
+                <td>
+                    <span style="padding: 0 40px">&nbsp;<a href="@("/Zanr/Details/"+item.žanrID)">@Html.DisplayFor(modelItemZ => item.nazivŽanra)</a></span>
+                </td>
+            </tr>
+        }
+
+    </tr>
+
+
+   
+   
+   
+</table>

@@ -20,7 +20,7 @@
             <PropertyRef Name="državaID" />
           </Key>
           <Property Name="državaID" Type="int" Nullable="false" />
-          <Property Name="nazivDržave" Type="nvarchar" MaxLength="50" />
+          <Property Name="nazivDržave" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="izvođač">
           <Key>
@@ -60,11 +60,11 @@
         </EntityType>
         <EntityType Name="žanroviIzvođača">
           <Key>
-            <PropertyRef Name="izvođačID" />
-            <PropertyRef Name="žanrID" />
+            <PropertyRef Name="izvođač_izvođačID" />
+            <PropertyRef Name="žanr_žanrID" />
           </Key>
-          <Property Name="izvođačID" Type="int" Nullable="false" />
-          <Property Name="žanrID" Type="int" Nullable="false" />
+          <Property Name="izvođač_izvođačID" Type="int" Nullable="false" />
+          <Property Name="žanr_žanrID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_album_izvođač">
           <End Role="izvođač" Type="Self.izvođač" Multiplicity="1" />
@@ -146,7 +146,7 @@
               <PropertyRef Name="izvođačID" />
             </Principal>
             <Dependent Role="žanroviIzvođača">
-              <PropertyRef Name="izvođačID" />
+              <PropertyRef Name="izvođač_izvođačID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -158,7 +158,7 @@
               <PropertyRef Name="žanrID" />
             </Principal>
             <Dependent Role="žanroviIzvođača">
-              <PropertyRef Name="žanrID" />
+              <PropertyRef Name="žanr_žanrID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -219,7 +219,6 @@
           <Property Name="godIzdanja" Type="Int16" />
           <NavigationProperty Name="izvođač" Relationship="Self.FK_album_izvođač" FromRole="album" ToRole="izvođač" />
           <NavigationProperty Name="žanr" Relationship="Self.FK_album_žanr" FromRole="album" ToRole="žanr" />
-          <NavigationProperty Name="žanr1" Relationship="Self.FK_album_žanr1" FromRole="album" ToRole="žanr" />
           <NavigationProperty Name="pjesma" Relationship="Self.FK_pjesma_album" FromRole="album" ToRole="pjesma" />
         </EntityType>
         <EntityType Name="država">
@@ -227,7 +226,7 @@
             <PropertyRef Name="državaID" />
           </Key>
           <Property Name="državaID" Type="Int32" Nullable="false" />
-          <Property Name="nazivDržave" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nazivDržave" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="izvođač" Relationship="Self.FK_izvođač_država" FromRole="država" ToRole="izvođač" />
         </EntityType>
         <EntityType Name="izvođač">
@@ -271,7 +270,6 @@
           <Property Name="žanrID" Type="Int32" Nullable="false" />
           <Property Name="nazivŽanra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="album" Relationship="Self.FK_album_žanr" FromRole="žanr" ToRole="album" />
-          <NavigationProperty Name="album1" Relationship="Self.FK_album_žanr1" FromRole="žanr" ToRole="album" />
           <NavigationProperty Name="pjesma" Relationship="Self.FK_pjesma_žanr" FromRole="žanr" ToRole="pjesma" />
           <NavigationProperty Name="izvođač" Relationship="Self.žanroviIzvođača" FromRole="žanr" ToRole="izvođač" />
         </EntityType>
@@ -288,18 +286,6 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_album_žanr">
-          <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
-          <End Role="album" Type="Self.album" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="žanr">
-              <PropertyRef Name="žanrID" />
-            </Principal>
-            <Dependent Role="album">
-              <PropertyRef Name="žanrID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_album_žanr1">
           <End Role="žanr" Type="Self.žanr" Multiplicity="1" />
           <End Role="album" Type="Self.album" Multiplicity="*" />
           <ReferentialConstraint>
@@ -351,7 +337,7 @@
           <End Role="izvođač" Type="Self.izvođač" Multiplicity="*" />
           <End Role="žanr" Type="Self.žanr" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="MusicDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="MusicDB_Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="album" EntityType="Self.album" />
           <EntitySet Name="država" EntityType="Self.država" />
           <EntitySet Name="izvođač" EntityType="Self.izvođač" />
@@ -363,10 +349,6 @@
             <End Role="album" EntitySet="album" />
           </AssociationSet>
           <AssociationSet Name="FK_album_žanr" Association="Self.FK_album_žanr">
-            <End Role="žanr" EntitySet="žanr" />
-            <End Role="album" EntitySet="album" />
-          </AssociationSet>
-          <AssociationSet Name="FK_album_žanr1" Association="Self.FK_album_žanr1">
             <End Role="žanr" EntitySet="žanr" />
             <End Role="album" EntitySet="album" />
           </AssociationSet>
@@ -392,7 +374,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MusicDBModelStoreContainer" CdmEntityContainer="MusicDBEntities">
+        <EntityContainerMapping StorageEntityContainer="MusicDBModelStoreContainer" CdmEntityContainer="MusicDB_Entities">
           <EntitySetMapping Name="album">
             <EntityTypeMapping TypeName="MusicDBModel.album">
               <MappingFragment StoreEntitySet="album">
@@ -453,10 +435,10 @@
           </EntitySetMapping>
           <AssociationSetMapping Name="žanroviIzvođača" TypeName="MusicDBModel.žanroviIzvođača" StoreEntitySet="žanroviIzvođača">
             <EndProperty Name="izvođač">
-              <ScalarProperty Name="izvođačID" ColumnName="izvođačID" />
+              <ScalarProperty Name="izvođačID" ColumnName="izvođač_izvođačID" />
             </EndProperty>
             <EndProperty Name="žanr">
-              <ScalarProperty Name="žanrID" ColumnName="žanrID" />
+              <ScalarProperty Name="žanrID" ColumnName="žanr_žanrID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

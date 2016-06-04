@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MusicOnDemand
+namespace MusicOnDemand.Models
 {
     using System;
     using System.Collections.Generic;

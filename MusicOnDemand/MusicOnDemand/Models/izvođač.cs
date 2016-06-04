@@ -7,27 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MusicOnDemand
+namespace MusicOnDemand.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
-    public partial class album
+    public partial class izvođač
     {
-        public album()
+        
+
+        public izvođač()
         {
-            this.pjesma = new HashSet<pjesma>();
+            this.album = new HashSet<album>();
+            this.žanr = new HashSet<žanr>();
         }
     
-        public int albumID { get; set; }
         public int izvođačID { get; set; }
-        public int žanrID { get; set; }
-        public string nazivAlbuma { get; set; }
-        public Nullable<short> godIzdanja { get; set; }
+        [Display(Name = "Artists")]
+        public string nazivIzvođač { get; set; }        
+        public Nullable<int> državaID { get; set; }
     
-        public virtual izvođač izvođač { get; set; }
-        public virtual žanr žanr { get; set; }
-        public virtual žanr žanr1 { get; set; }
-        public virtual ICollection<pjesma> pjesma { get; set; }
+        public virtual ICollection<album> album { get; set; }
+        public virtual država država { get; set; }
+        public virtual ICollection<žanr> žanr { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model MusicOnDemand.Models.država
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>država</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nazivDržave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nazivDržave)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.državaID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
